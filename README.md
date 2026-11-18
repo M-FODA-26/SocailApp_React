@@ -2,7 +2,7 @@
 
 A modern, interactive social networking platform inspired by Facebook, built with React and Vite.
 
-🌐 **Live Demo:** [Click here to view the project](https://socailapp-beta.vercel.app/login)
+🌐 **Live Demo:** [Click here to view the project](https://socailapp-beta.vercel.app)
 
 ---
 
