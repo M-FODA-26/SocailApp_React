@@ -67,7 +67,7 @@ const [image,setimage]=useState(null)
   const {data,mutate}=useMutation({
     mutationFn:likePost,
     onSuccess:(response)=>{
-      console.log("like post success",response.data);
+      // console.log("like post success",response.data);
     queryClient.invalidateQueries({
       queryKey:['allPosts']
     }),
@@ -136,7 +136,7 @@ const [image,setimage]=useState(null)
   const { mutate: update1,ispending:update2 }=useMutation({
     mutationFn:updatePost,
     onSuccess:()=>{
-      console.log('post edit');
+      // console.log('post edit');
       
       queryClient.invalidateQueries({
         queryKey:['allPosts']
@@ -289,6 +289,9 @@ const [image,setimage]=useState(null)
             {/* /////////////////////////////////////////////{modal}////////////////////////////////////////////// */}
     
     <Modal isOpen={isOpen} onOpenChange={setisOpen}>
+      <Modal.Trigger className="hidden" aria-hidden="true" tabIndex={-1}>
+        Open edit post
+      </Modal.Trigger>
       <Modal.Backdrop>
         <Modal.Container placement="center">
           <Modal.Dialog className="sm:max-w-125">
