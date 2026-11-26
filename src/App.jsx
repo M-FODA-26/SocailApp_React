@@ -1,24 +1,25 @@
-import { Profiler, useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
+import { lazy, Suspense } from 'react'
 import './App.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Layout from './components/Layout/Layout'
-import Home from './components/Home/Home'
-import Register from './Auth/Register/Register'
-import Login from './Auth/Login/Login'
 import UserContextProvider from './CounterContext/UserContext'
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'
-import Profile from "./components/Profile/Profile"
 import AuthRoute from './components/AuthRoute/AuthRoute'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import PostDetails from './components/PostDetails/PostDetails'
-import UserProfile from './components/UserProfile/UserProfile'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNetworkState } from 'react-use'
-import ChangePassword from './components/ChangePassword/ChangePassword'
+import Loader from './components/Loader/Loader'
+
+const Home = lazy(() => import('./components/Home/Home'))
+const Register = lazy(() => import('./Auth/Register/Register'))
+const Login = lazy(() => import('./Auth/Login/Login'))
+const Profile = lazy(() => import('./components/Profile/Profile'))
+const PostDetails = lazy(() => import('./components/PostDetails/PostDetails'))
+const UserProfile = lazy(() => import('./components/UserProfile/UserProfile'))
+const ChangePassword = lazy(() => import('./components/ChangePassword/ChangePassword'))
+
+const queryClient = new QueryClient()
 
 let router=createBrowserRouter([
 {path:'',element:<Layout/>,children:[
@@ -36,18 +37,18 @@ let router=createBrowserRouter([
 
 function App() {
   const { online } = useNetworkState()
-  const [count, setCount] = useState(0)
-  const query = new QueryClient()
 
   return (
     <>
    {!online&& <div className={'bg-gray-800/65 fixed inset-0 z-50 flex items-center justify-center text-white text-4xl font-bold '}>
       <h1>Yuo are offline now!...</h1>
     </div>}
- <QueryClientProvider client={query}>
+ <QueryClientProvider client={queryClient}>
 <UserContextProvider>
 
+     <Suspense fallback={<Loader />}>
      <RouterProvider router={router} />
+     </Suspense>
     <ToastContainer autoClose={1000} />
 </UserContextProvider>
 

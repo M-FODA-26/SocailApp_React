@@ -174,7 +174,7 @@ const [image,setimage]=useState(null)
     <div className='flex justify-between items-center'>
       <div className='flex items-center gap-2 '>
         <Link to={`/user-profile/${encodeURIComponent(post.user.username)}`}>
-          <img src={post.user.photo} className='w-10 h-10 rounded-full cursor-pointer' alt={post.user.name} />
+          <img src={post.user.photo} loading="lazy" decoding="async" className='w-10 h-10 rounded-full cursor-pointer' alt={post.user.name} />
         </Link>
         <div>
             <h4 className='font-medium'>{post.user.name}</h4>
@@ -253,6 +253,8 @@ const [image,setimage]=useState(null)
     {post.image ?   <figure>
     <img
       src={post.image}
+      loading="lazy"
+      decoding="async"
       alt={post.body} />
   </figure> : ""}
 </Link>
