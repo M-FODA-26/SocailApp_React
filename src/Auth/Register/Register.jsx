@@ -7,7 +7,7 @@ import { useState } from "react";
 import './register.css'
 import ErrorMessage from'../../components/ErorrMassage/ErorrMassage'
 import axios from "axios";
-import { showAlert } from '../../utils/showAlert'
+import Swal from "sweetalert2";
 import { useNavigate,Link } from "react-router-dom";
 import { ImSpinner } from "react-icons/im";
 
@@ -81,22 +81,23 @@ if(isloading){
   setIsLoading(true)
      let {data}=await axios.post(`https://route-posts.routemisr.com/users/signup`,values)
     console.log(data.message);
-    const result = await showAlert({
+    Swal.fire({
   title: "successfuly",
   text: data.message,
   icon: "success",
   confirmButtonAriaLabel:'ok'
-})
+}).then((result)=>{
   if(result.isConfirmed){
     setTimeout(() => {
       navigate('/login')
     }, 1000);
   }
 
+})
     
  } catch (error) {
   console.log(error.response.data.message);
-     await showAlert({
+     Swal.fire({
   title: "Error!",
   text: error.response.data.message,
   icon: "error",
@@ -128,14 +129,14 @@ if(isloading){
           <form onSubmit={handleSubmit(handelRegister)}>
             {fields.map((field)=><div key={field.name}>
               <div className="flex flex-col items-start gap-1 mt-2">
-              <label htmlFor={field.name} className="font-medium">
+              <label htmlFor="name" className="font-medium">
                 {field.name.charAt(0).toUpperCase()+field.name.slice(1)}
               </label>
               {/* ////////////////////  name  ///////////////////////// */}
               <Input
                 {...register(field.name)}
                 type={field.type}
-                id={field.name}
+                id="name"
                 aria-label={field.name}
                 className="w-full h-12"
                 placeholder={field.placeholder}
@@ -167,7 +168,6 @@ if(isloading){
 
                 <select
                   {...register("gender")}
-                  aria-label="Gender"
                   defaultValue="Pick a color"
                   className="w-full select  rounded-[10px] h-12 hover:bg-[#F9F9F9] transition-all duration-200 border-gray-100  focus:border-transparent"
                 >
@@ -180,7 +180,7 @@ if(isloading){
               </div>
             </div>
             <div className="flex flex-col items-start gap-1 mt-2 relative">
-              {passValue && <button type="button" aria-label={showPassword ? 'Hide password' : 'Show password'} aria-pressed={showPassword} onClick={()=>setShowPassword(!showPassword)} className="absolute top-11 right-3 cursor-pointer border-0 bg-transparent p-0">{showPassword ? <FaEye /> : <FaEyeSlash />}</button>}
+              {passValue && <span onClick={()=>setShowPassword(!showPassword)} className=" absolute top-11 right-3 cursor-pointer">{showPassword ? <FaEye /> : <FaEyeSlash />}</span>}
               <label htmlFor="password" className="font-medium">
                 Password
               </label>
