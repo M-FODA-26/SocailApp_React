@@ -6,9 +6,9 @@ import z, { email } from 'zod'
 import ErorrMassage from '../../components/ErorrMassage/ErorrMassage'
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
 import axios from 'axios'
-import Swal from 'sweetalert2'
 import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { UserContext } from '../../CounterContext/UserContext'
+import { showAlert } from '../../utils/showAlert'
 
 
 
@@ -45,12 +45,12 @@ try {
   
   
   
-    Swal.fire({
+    const result = await showAlert({
     title: "successfuly",
     text: data.message,
     icon: "success",
     confirmButtonAriaLabel:'ok'
-  }).then((result)=>{
+  })
   if(result.isConfirmed){
     localStorage.setItem("userToken",data.data.token)
     setuserLogin(data.data.token)
@@ -59,12 +59,11 @@ try {
     }, 500);
   }
 
-})
    
   
 } catch (error) {
   console.log(error.response.data.message);
-       Swal.fire({
+       await showAlert({
     title: "Error!",
     text: error?.response?.data?.message,
     icon: "error",
@@ -105,7 +104,7 @@ try {
                </div>
             
                <div className="flex flex-col items-start gap-1 mt-2 relative">
-                {passValue&& <span onClick={()=>setShowPass(!showPass)} className=" absolute top-11 right-3 cursor-pointer">{showPass ? <FaEye /> : <FaEyeSlash />}</span>}
+                {passValue&& <button type="button" aria-label={showPass ? 'Hide password' : 'Show password'} aria-pressed={showPass} onClick={()=>setShowPass(!showPass)} className="absolute top-11 right-3 cursor-pointer border-0 bg-transparent p-0">{showPass ? <FaEye /> : <FaEyeSlash />}</button>}
                  <label htmlFor="password" className="font-medium">
                    Password
                  </label>

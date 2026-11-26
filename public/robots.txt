@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /home
+Disallow: /profile
+Disallow: /ChangePassword
+Disallow: /user-profile/
+Disallow: /postDetails/
+
+Sitemap: https://socailapp-beta.vercel.app/sitemap.xml

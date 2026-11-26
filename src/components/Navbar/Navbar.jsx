@@ -10,7 +10,9 @@ let navigate=useNavigate()
 const {data: profile} = useQuery({
   queryKey: ['profile'],
   queryFn: getProfile,
-  select: (response) => response?.data?.data
+  select: (response) => response?.data?.data,
+  enabled: Boolean(userLogin),
+  retry: (failureCount, error) => error?.response?.status === 401 ? false : failureCount < 2
 })
 
 function signOut() {
